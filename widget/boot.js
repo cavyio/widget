@@ -18,6 +18,7 @@ var topicsCallback;
 
     var overflow = 'auto';
 
+    var thirdPartyEnabled = true;
     var selectorActive = false;
     var selectedElement = null;
     var tooltipElements = {};
@@ -60,9 +61,15 @@ var topicsCallback;
     var baseUrl = 'https://' + hostname;
     var clientUrl = baseUrl;
 
+    var pathPrefix = './widget/';
+
     var widgetZIndex = 9000;
 
     var dataParams = getDataParams();
+
+    if (dataParams.pathPrefix) {
+        pathPrefix = dataParams.pathPrefix;
+    }
 
     if (dataParams.api) {
         baseUrl = dataParams.api;
@@ -81,7 +88,7 @@ var topicsCallback;
     var widgetHtml = String(' \
         <div id="cavy-chat-button" class="cavy-button"> \
         </div> \
-        <div id="cavy-ticket-button" class="cavy-button"> \
+        <div id="cavy-issues-button" class="cavy-button"> \
         </div> \
         <div id="cavy-wiki-button" class="cavy-button"> \
         </div> \
@@ -94,7 +101,7 @@ var topicsCallback;
         <div class="cavy-status-text">{0}</div> \
     ');
 
-    var cavyTicketButtonHtml = String('\
+    var cavyIssuesButtonHtml = String('\
         <div class="cavy-icon">&#xe939;</div> \
         <div class="cavy-status-text">{0}</div> \
     ');
@@ -164,7 +171,7 @@ var topicsCallback;
         openIframe(clientUrl + '/#/chat?topic=' + getTopicId());
     }).bind(this);
 
-    var openTickets = (function() {
+    var openIssues = (function() {
         openIframe(clientUrl + '/#/issues?topic=' + getTopicId());
     }).bind(this);
 
@@ -201,7 +208,7 @@ var topicsCallback;
             topicId = body.getAttribute('data-cavy-topic');
         }
 
-        if (typeof topicId === 'undefined') {
+        if (topicId === null || typeof topicId === 'undefined') {
             return 'root';
         } else {
             return topicId;
@@ -211,25 +218,33 @@ var topicsCallback;
 
     function openIframe(url) {
 
-        if (document.getElementsByTagName('body')[0].style.overflow !== undefined) {
-            overflow = document.getElementsByTagName('body')[0].style.overflow;
+        if (thirdPartyEnabled) {
+
+            if (document.getElementsByTagName('body')[0].style.overflow !== undefined) {
+                overflow = document.getElementsByTagName('body')[0].style.overflow;
+            }
+            document.getElementsByTagName('body')[0].style.overflow = 'hidden';
+
+            var cavyIframeElement = document.getElementById('cavy-iframe');
+            removeClass(cavyIframeElement, 'cavy-iframe-hide');
+
+            fadeIn(cavyIframeElement, (function () {
+
+                var ifrm = document.createElement('iframe');
+                ifrm.setAttribute('src', url);
+                ifrm.setAttribute('frameborder', 0);
+                ifrm.width = '100%';
+                ifrm.height = '100%';
+
+                cavyIframeElement.appendChild(ifrm);
+
+            }).bind(this));
+
+        } else {
+
+            window.open(url, '_blank');
+
         }
-        document.getElementsByTagName('body')[0].style.overflow = 'hidden';
-
-        var cavyIframeElement = document.getElementById('cavy-iframe');
-        removeClass(cavyIframeElement, 'cavy-iframe-hide');
-
-        fadeIn(cavyIframeElement, (function() {
-
-            var ifrm = document.createElement('iframe');
-            ifrm.setAttribute('src', url);
-            ifrm.setAttribute('frameborder', 0);
-            ifrm.width = '100%';
-            ifrm.height = '100%';
-
-            cavyIframeElement.appendChild(ifrm);
-
-        }).bind(this));
 
     }
 
@@ -249,12 +264,12 @@ var topicsCallback;
 
         if (document.createStyleSheet) {
 
-            document.createStyleSheet('./widget/boot.css');
+            document.createStyleSheet(pathPrefix + 'boot.css');
 
         } else {
 
             var bootLink = document.createElement('link');
-            bootLink.href = './widget/boot.css';
+            bootLink.href = pathPrefix + 'boot.css';
             bootLink.setAttribute('rel', 'stylesheet');
             bootLink.setAttribute('type', 'text/css');
             document.getElementsByTagName('head')[0].appendChild(bootLink);
@@ -442,7 +457,7 @@ var topicsCallback;
     function compileLabelText(topicId) {
         var html = '';
         if (topics[topicId]['icon']) {
-            html += '<div class="cavy-selector-tooltip-icon"><img style="border-radius:2px" src="' + topics[topicId]['icon'] + '"></div>';
+            html += '<div class="cavy-selector-tooltip-icon"><img style="border-radius: 2px;" src="' + topics[topicId]['icon'] + '" width="60" height="60"></div>';
         }
         html += '<p><span class="cavy-selector-tooltip-title">' + topics[topicId].name.toUpperCase() + '</span></p><p style="clear: both;">' + topics[topicId].description + '</p>';
         if (topics[topicId]['pinned'] && topics[topicId]['pinned'].length > 0) {
@@ -455,10 +470,6 @@ var topicsCallback;
     }
 
     function clickTopicEventHandler(event) {
-
-        // debugger;
-
-        console.log('topic event handler clicked');
         event = event || window.event;
         if (event.type === 'touchstart' && !selectedElement) {
             console.log('not opening topic, no element is selected.');
@@ -686,7 +697,7 @@ var topicsCallback;
 
     function updateNotifications(summary) {
         buttonElements.chatButton.innerHTML = cavyChatButtonHtml.format(summary.cha);
-        buttonElements.ticketButton.innerHTML = cavyTicketButtonHtml.format(summary.tic);
+        buttonElements.issuesButton.innerHTML = cavyIssuesButtonHtml.format(summary.tic);
     }
 
     function drawInterface() {
@@ -699,6 +710,14 @@ var topicsCallback;
          * Receive close iframe and notification update messages.
          */
         processEvent(messageEvent, function(e) {
+            if (e.data === 'MM:3PCunsupported') {
+                thirdPartyEnabled = false;
+                return;
+            }
+            if (e.data === 'MM:3PCsupported') {
+                thirdPartyEnabled = true;
+                return;
+            }
             if (e.data === 'cavy-close') {
                 closeIframe();
                 return;
@@ -709,6 +728,17 @@ var topicsCallback;
             }
             updateNotifications(e.data);
         }, false);
+
+        /**
+         * Attach third party cookie check iframe.
+         */
+        var thirdpartyiframe = document.createElement('iframe');
+        thirdpartyiframe.id = 'cavy-third-party-iframe';
+        thirdpartyiframe.setAttribute('frameborder', 0);
+        thirdpartyiframe.setAttribute('width', 0);
+        thirdpartyiframe.setAttribute('height', 0);
+        thirdpartyiframe.src = baseUrl + '/widget/start.html';
+        document.getElementsByTagName('body')[0].appendChild(thirdpartyiframe);
 
         /**
          * Attach the SSE iframe.
@@ -744,9 +774,9 @@ var topicsCallback;
         buttonElements.chatButton.innerHTML = cavyChatButtonHtml.format('0');
         buttonElements.chatButton.onclick = openChat;
 
-        buttonElements.ticketButton = document.getElementById('cavy-ticket-button');
-        buttonElements.ticketButton.innerHTML = cavyTicketButtonHtml.format('0');
-        buttonElements.ticketButton.onclick = openTickets;
+        buttonElements.issuesButton = document.getElementById('cavy-issues-button');
+        buttonElements.issuesButton.innerHTML = cavyIssuesButtonHtml.format('0');
+        buttonElements.issuesButton.onclick = openIssues;
 
         buttonElements.wikiButton = document.getElementById('cavy-wiki-button');
         buttonElements.wikiButton.innerHTML = cavyWikiButtonHtml;
@@ -768,7 +798,8 @@ var topicsCallback;
         return {
             api: currentScript.getAttribute('data-cavy-api'),
             client: currentScript.getAttribute('data-cavy-client'),
-            widgetZIndex: currentScript.getAttribute('data-cavy-z-index')
+            widgetZIndex: currentScript.getAttribute('data-cavy-z-index'),
+            pathPrefix: currentScript.getAttribute('data-cavy-path-prefix')
         };
     }
 
