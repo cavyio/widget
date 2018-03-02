@@ -45,8 +45,8 @@
 
 #cavy-select-button {
     position: absolute;
-    right: 80px;
-    bottom: 2px;
+    right: 74px;
+    bottom: 0px;
     width: 26px;
     height: 26px;
     text-align: center;
@@ -79,6 +79,11 @@
 .cavy-icon svg {
     fill: white;
     color: white;
+}
+
+#cavy-select-button svg {
+    fill: #1e8cf0;
+    color: #1e8cf0;
 }
 
 .cavy-wiki-text {
