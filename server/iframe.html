@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="ISO-8859-1">
+    <title></title>
+    <script src="./eventsource.min.js"></script>
+</head>
+<body>
+<script>
+
+    window.onload = function() {
+
+        (function(){
+
+            function processMessage(mapper) {
+
+                var responseHandler = (function() {
+                    if (request.status >= 200 && request.status < 400) {
+                        var summary = JSON.parse(request.responseText);
+                        parent.postMessage(summary, (parent !== window) ? document.referrer : document.location);
+                    }
+                }).bind(this);
+
+                if (mapper == 'memberships' || mapper == 'unread') {
+                    var request = new XMLHttpRequest();
+                    request.open('GET', apiUrl + '/api/messages/summary', true);
+                    request.onload = responseHandler;
+                    request.onerror = function () {
+                        console.error('Could not get message summary.');
+                    };
+                    request.send();
+                }
+
+            }
+
+            function getCookie(cname) {
+                var name = cname + '=';
+                var ca = document.cookie.split(';');
+                for (var i = 0; i < ca.length; i++) {
+                    var c = ca[i];
+                    while (c.charAt(0) == ' ') {
+                        c = c.substring(1);
+                    }
+                    if (c.indexOf(name) == 0) {
+                        return c.substring(name.length, c.length);
+                    }
+                }
+                return '';
+            }
+
+            var port = (location.port) ? ':' + location.port : '';
+            var apiUrl = location.protocol + '//' + location.hostname + port;
+
+            if (document.cookie.indexOf('cavy_session_id=') == -1) {
+                console.log('No cookie found.');
+                var request = new XMLHttpRequest();
+                request.open('GET', apiUrl + '/session/id', true);
+                request.onload = function () {
+                    if (request.status >= 200 && request.status < 400) {
+                        console.log('Fetched a cookie.');
+                        var session_id = request.responseText;
+                        var date = new Date();
+                        var days = 182;
+                        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                        document.cookie = 'cavy_session_id=' + session_id + '; path=/; expires=' + date.toGMTString();
+                    }
+                };
+                request.onerror = function () {
+                };
+                request.send();
+            }
+
+            var changeEvent = null;
+            var forceRefresh = false;
+
+            var eventMethod = window.addEventListener ? 'addEventListener' : 'attachEvent';
+            var messageEvent = eventMethod == 'attachEvent' ? 'onmessage' : 'message';
+
+            var onSSEOpen = (function() {
+                console.log('SSE connected.');
+                if (forceRefresh == true) {
+                    console.log('Forcing refresh.');
+                    processMessage('unread');
+                    forceRefresh = false;
+                }
+            }).bind(this);
+
+            var onSSEError = (function() {
+                console.log('SSE error.');
+                console.log('Ready state changed to: ' + changeEvent.readyState);
+            }).bind(this);
+
+            var changeEventListener = (function(event) {
+                if (!event.data || event.data.trim().length === 0 || event.data.trim() === '{}') {
+                    return;
+                }
+                var response = JSON.parse(event.data);
+                var topicParts = response.topic.split(':');
+                var mapper = null;
+                if (topicParts.length == 3) {
+                    mapper = topicParts[2];
+                } else {
+                    mapper = topicParts[1];
+                }
+                processMessage(mapper);
+            }).bind(this);
+
+            var createEventSource = (function() {
+                if (changeEvent != null) {
+                    changeEvent.removeEventListener(changeEvent, changeEventListener);
+                }
+                changeEvent = new EventSource(apiUrl + '/sse/changes', {withCredentials: true});
+                changeEvent.addEventListener(messageEvent, changeEventListener);
+                changeEvent.onopen = onSSEOpen;
+                changeEvent.onerror = onSSEError;
+            }).bind(this);
+
+            createEventSource();
+
+            setInterval((function() {
+                if ((changeEvent.readyState !== undefined) && (changeEvent.readyState == 2)) {
+                    console.log('EventSource was closed. Recreating EventSource.');
+                    changeEvent.close();
+                    forceRefresh = true;
+                    createEventSource();
+                }
+            }).bind(this), 5000);
+
+        }());
+
+    };
+
+</script>
+</body>
+</html>
