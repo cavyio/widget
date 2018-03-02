@@ -52,9 +52,8 @@
 }
 
 .cavy-button {
-    width: 80px;
-    height: 40px;
     margin-top: 6px;
+    padding: 0 16px 0 16px;
     border-radius: 20px;
     background: #2a2a2a;
     box-shadow: inset 0 0 1px 0 #fff;
@@ -64,8 +63,8 @@
 
 #cavy-select-button {
     position: absolute;
-    right: 90px;
-    bottom: 6px;
+    right: 80px;
+    bottom: 2px;
     width: 26px;
     height: 26px;
     text-align: center;
@@ -79,28 +78,28 @@
 }
 
 .cavy-status-text {
-    display: inline;
+    display: inline-block;
     font-family: 'open_sanslight', sans-serif;
     color: hsla(0, 0%, 100%, .75);
     font-size: 13px;
-    line-height: 39px;
+    line-height: 36px;
     text-align: right;
 }
 
 .cavy-icon {
-    display: inline;
+    display: inline-block;
     margin-right: 10px;
     font-family: cavycustom, sans-serif;
     color: hsla(0, 0%, 100%, .9);
     font-size: 13px;
-    line-height: 39px;
+    line-height: 36px;
 }
 
 .cavy-wiki-text {
     font-family: open_sanslight, sans-serif;
     color: #fff;
     font-size: 13px;
-    line-height: 39px;
+    line-height: 36px;
     text-align: center;
     letter-spacing: 2px;
 }
