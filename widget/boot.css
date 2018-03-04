@@ -34,28 +34,24 @@
 }
 
 .cavy-button {
-    margin-top: 6px;
-    padding: 0 16px 0 16px;
     border-radius: 2px;
     background: #1e8cf0;
     box-shadow: inset 0 0 1px 0 #fff;
-    text-align: center;
     cursor: pointer;
+    height: 30px;
+    width: 60px;
+    margin-top: 6px;
 }
 
 #cavy-select-button {
     position: absolute;
-    right: 74px;
-    bottom: 0px;
-    width: 26px;
-    height: 26px;
-    text-align: center;
+    right: 66px;
+    bottom: 0;
+    width: 32px;
+    height: 30px;
     cursor: pointer;
-    color: white;
-    font-size: 16px;
-    line-height: 26px;
-    text-shadow: 0px 0px 1px black;
-    border-radius: 3px;
+    background: rgba(0,0,0,0.1);
+    border-radius: 2px;
 }
 
 .cavy-status-text {
@@ -64,36 +60,51 @@
     font-weight: 500;
     color: hsla(0, 0%, 100%, .75);
     font-size: 12px;
-    line-height: 32px;
     text-align: right;
+    float: left;
+    height: 100%;
+    line-height: 30px;
 }
 
 .cavy-icon {
-    float: left;
     display: inline-block;
-    margin: 0 10px 0 0;
-    padding-top: 8px;
     color: hsla(0, 0%, 100%, .9);
+    float: left;
+    height: 100%;
+    margin-right: 8px;
+    margin-left: 12px;
 }
 
 .cavy-icon svg {
+    display: block;
     fill: white;
     color: white;
+    height: 100%;
+}
+
+#cavy-select-button > div {
+    padding-top: 10px;
 }
 
 #cavy-select-button svg {
     fill: #1e8cf0;
     color: #1e8cf0;
+    display: block;
+    margin-left: 9px;
+    height: 100%;
 }
 
 .cavy-wiki-text {
+    float: left;
     font-family: 'Heebo', sans-serif;
     font-weight: 500;
     color: #fff;
     font-size: 12px;
-    line-height: 32px;
     text-align: center;
+    width: 100%;
     letter-spacing: 2px;
+    line-height: 30px;
+    height: 100%;
 }
 
 .cavy-selector {
@@ -113,9 +124,9 @@
     cursor: pointer;
     z-index: 7001;
     border-radius: 6px;
-    -webkit-box-shadow: 2px 2px 5px 0px rgba(255,255,255,0.6);
-    -moz-box-shadow: 2px 2px 5px 0px rgba(255,255,255,0.6);
-    box-shadow: 0px 0px 2px 0px rgba(255,255,255,0.6);
+    -webkit-box-shadow: 2px 2px 5px 0 rgba(255,255,255,0.6);
+    -moz-box-shadow: 2px 2px 5px 0 rgba(255,255,255,0.6);
+    box-shadow: 0 0 2px 0 rgba(255,255,255,0.6);
     text-align: center;
     max-width: 260px;
     min-width: 260px;
@@ -473,10 +484,10 @@
     }
 
     #cavy-select-button {
-        position: absolute;
-        right: calc((100% - 290px) / 2 / 2);
-        bottom: inherit;
+        position: relative;
         display: inline-block;
+        right: initial;
+        bottom: initial;
     }
 
 }
