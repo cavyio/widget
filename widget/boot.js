@@ -866,6 +866,7 @@ var topicsCallback;
                 } else if (document.activeElement.tabIndex === 994) {
                     toggleSelector();
                 }
+                document.activeElement.blur();
             }
         }
     };
