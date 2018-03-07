@@ -565,7 +565,7 @@ var topicsCallback;
     function hideTooltipElements() {
         for (var key in tooltipElements) {
             if (tooltipElements.hasOwnProperty(key)) {
-                tooltipElements[key].style.display = 'none';
+                tooltipElements[key].style.visibility = 'hidden';
             }
         }
     }
@@ -573,7 +573,7 @@ var topicsCallback;
     function showTooltipElements() {
         for (var key in tooltipElements) {
             if (tooltipElements.hasOwnProperty(key)) {
-                tooltipElements[key].style.display = '';
+                tooltipElements[key].style.visibility = 'visible';
             }
         }
     }
