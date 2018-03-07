@@ -115,7 +115,7 @@
 }
 
 .cavy-selector-tooltip {
-    background: #2a2a2a;
+    background: #1e8cf0;
     color: #fff;
     font-family: 'Heebo', sans-serif;
     font-weight: 400;
@@ -257,7 +257,7 @@
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
-    border-color: #2a2a2a transparent transparent transparent;
+    border-color: #1e8cf0 transparent transparent transparent;
     z-index: 7000;
 }
 
@@ -269,7 +269,7 @@
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
-    border-color: transparent #2a2a2a transparent transparent;
+    border-color: transparent #1e8cf0 transparent transparent;
     z-index: 7000;
 }
 
@@ -281,7 +281,7 @@
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent #2a2a2a transparent;
+    border-color: transparent transparent #1e8cf0 transparent;
     z-index: 7000;
 }
 
@@ -293,7 +293,7 @@
     margin-left: -10px;
     border-width: 10px;
     border-style: solid;
-    border-color: transparent transparent transparent #2a2a2a;
+    border-color: transparent transparent transparent #1e8cf0;
     z-index: 7000;
 }
 
