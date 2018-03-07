@@ -179,18 +179,30 @@ var topicsCallback;
     }
 
     var openChat = (function() {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
         openIframe(clientUrl + '/#/chat?topic=' + getTopicId());
     }).bind(this);
 
     var openIssues = (function() {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
         openIframe(clientUrl + '/#/issues?topic=' + getTopicId());
     }).bind(this);
 
     var openWiki = (function() {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
         openIframe(clientUrl + '/#/?topic=' + getTopicId());
     }).bind(this);
 
     var toggleSelector = (function() {
+        if (document.activeElement) {
+            document.activeElement.blur();
+        }
         if (!selectorActive) {
             fetchTopics(topics, 'topicsCallback');
         } else {
@@ -866,7 +878,6 @@ var topicsCallback;
                 } else if (document.activeElement.tabIndex === 994) {
                     toggleSelector();
                 }
-                document.activeElement.blur();
             }
         }
     };
