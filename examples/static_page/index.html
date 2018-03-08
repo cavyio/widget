@@ -2,17 +2,183 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>Example</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#ffffff">
+    <title>Cavy JavaScript Widget</title>
+    <link href="https://fonts.googleapis.com/css?family=Heebo:300,400,500,700|Karla:400,700" rel="stylesheet">
+    <style>
+
+        html {
+            background: #fff;
+            color: #3b566e;
+            font-size: 1em;
+            font-family: 'Heebo', sans-serif;
+            font-weight: 300;
+            overflow-y: scroll;
+            height: 100%;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        h1 {
+            font-size: 34px;
+            font-family: 'Karla', sans-serif;
+        }
+
+        h2 {
+            font-size: 24px;
+            font-weight: 500;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        h3 {
+            font-size: 20px;
+            font-weight: 400;
+            font-family: 'Heebo', sans-serif;
+        }
+
+        a {
+            text-decoration: underline;
+            color: #3b566e;
+            cursor: pointer;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            min-height: 100%;
+        }
+
+        .header {
+            height: 50px;
+            line-height: 50px;
+            background-color: #1e8cf0;
+            color: #ffffff;
+            font-size: 16px;
+            font-weight: 500;
+        }
+
+        .content {
+            background-color: #ffffff;
+            position: relative;
+            flex: 1;
+        }
+
+        .footer {
+            height: 160px;
+            background-color: #ecf4f9;
+            text-align: center;
+            font-size: 13px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .section {
+            margin: 10px 20px 10px 20px;
+        }
+
+        .header-title {
+            margin-left: 20px;
+        }
+
+    </style>
 </head>
-<body data-cavy-topic="test-page-example">
+<body data-cavy-topic="javascript-widget">
 
-<p><span data-cavy-topic="topic-one">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</span> Quis negat? Hic quoque suus est de summoque.</p>
+    <div class="container">
 
-<p data-cavy-topic="topic-two">His enim rebus detractis negat se reperire in asotorum vita quod reprehendat.</p>
+        <div class="header">
+            <div class="header-title">
+                Cavy JavaScript Widget
+            </div>
+        </div>
 
-<a data-cavy-topic="topic-three">Open topic three in Cavy.</a>
+        <div class="content">
 
-<script src="../../widget/boot.js" type="text/javascript" data-cavy-path-prefix="../../widget/" data-cavy-api="http://support.cavy.io" data-cavy-client="http://support.cavy.io"></script>
+            <div class="section">
+                <h1>
+                    Using the JavaScript Widget
+                </h1>
+                <p>
+                    Select a button from the widget at the bottom right of the screen. For more information on each topic, select the highlight button and select a topic.
+                </p>
+            </div>
+
+            <div class="section">
+
+                <h2>
+                    Setting a Body Topic
+                </h2>
+
+                <p>Every HTML page has a body tag. This example code uses the topic tag &quot;javascript-widget&quot;.</p>
+
+                <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>body</span> <span class="token attr-name">data-cavy-topic</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>javascript-widget<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span></code></pre>
+
+                <p>Body tags can also be dynamic since changes in the DOM are picked up automatically by the widget.</p>
+
+            </div>
+
+            <div class="section">
+
+                <h2>
+                    Setting an Element Topic
+                </h2>
+
+                <p><span data-cavy-topic="topic-tags">Every topic has a unique topic tag.</span> You can specify an element topic using the data-cavy-topic attribute with the element.</p>
+
+                <pre class="language-html"><code class="language-html"><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>p</span> <span class="token attr-name">data-cavy-topic</span><span class="token attr-value"><span class="token punctuation">=</span><span class="token punctuation">"</span>my-topic<span class="token punctuation">"</span></span><span class="token punctuation">&gt;</span></span>This is a paragraph that is linked to my-topic when it is hovered<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>p</span><span class="token punctuation">&gt;</span></span></code></pre>
+
+            </div>
+
+            <div class="section">
+
+                <h2>
+                    Setting a Link Topic
+                </h2>
+
+                <p data-cavy-topic="javascript-widget-clickable-links">Anchor tags and elements can also be opened as a clickable link.</p>
+
+                <a data-cavy-topic="javascript-widget-clickable-links">Click here to learn more.</a>
+
+            </div>
+
+            <div class="section">
+                <h2>
+                    Custom Settings
+                </h2>
+
+                <p data-cavy-topic="javascript-widget-custom-settings">A number of settings such as <strong>data-cavy-path-prefix</strong>, <strong>data-cavy-api</strong> and <strong>data-cavy-client</strong> can also be set to further help extend the widget code.</p>
+
+            </div>
+
+        </div>
+
+        <div class="footer">
+            <div>
+                &copy; 2018, Software Engineering &amp; Consulting Pty Ltd (Cavy)<br>
+            </div>
+            <div style="margin-top: 4px;">
+                Widget and example code is released under <a href="https://opensource.org/licenses/MIT" target="_blank">MIT License</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="../../widget/boot.js" type="text/javascript" data-cavy-path-prefix="../../widget/" data-cavy-api="http://support.cavy.io" data-cavy-client="http://support.cavy.io"></script>
 
 </body>
 </html>
