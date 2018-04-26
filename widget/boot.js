@@ -61,7 +61,7 @@ var topicsCallback;
     var baseUrl = 'https://' + hostname;
     var clientUrl = baseUrl;
 
-    var pathPrefix = './widget/';
+    var pathPrefix = baseUrl + '/widget/';
 
     var widgetZIndex = 9000;
 
@@ -744,7 +744,6 @@ var topicsCallback;
                 return;
             }
             if (e.origin !== baseUrl) {
-                console.log('Message from wrong origin: ' + e.origin);
                 return;
             }
             updateNotifications(e.data);
