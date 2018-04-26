@@ -182,21 +182,21 @@ var topicsCallback;
         if (document.activeElement) {
             document.activeElement.blur();
         }
-        openIframe(clientUrl + '/#/chat?topic=' + getTopicId());
+        openIframe(clientUrl + '/chat?topic=' + getTopicId());
     }).bind(this);
 
     var openIssues = (function() {
         if (document.activeElement) {
             document.activeElement.blur();
         }
-        openIframe(clientUrl + '/#/issues?topic=' + getTopicId());
+        openIframe(clientUrl + '/issues?topic=' + getTopicId());
     }).bind(this);
 
     var openWiki = (function() {
         if (document.activeElement) {
             document.activeElement.blur();
         }
-        openIframe(clientUrl + '/#/?topic=' + getTopicId());
+        openIframe(clientUrl + '/?topic=' + getTopicId());
     }).bind(this);
 
     var toggleSelector = (function() {
@@ -488,14 +488,13 @@ var topicsCallback;
                 html += '<div class="cavy-selector-tooltip-slug' + (topics[slug]['color'] ? ' cavy-slug-' + topics[slug]['color']: '') + '">' + slug + '</div>';
             }
         }
-        html += '<p style="margin: 0;"><span class="cavy-selector-tooltip-topic-id">' + clientUrl + '/#/?topic=' + topicId + '</span></p>';
+        html += '<p style="margin: 0;"><span class="cavy-selector-tooltip-topic-id">' + clientUrl + '/?topic=' + topicId + '</span></p>';
         return html;
     }
 
     function clickTopicEventHandler(event) {
         event = event || window.event;
         if (event.type === 'touchstart' && !selectedElement) {
-            console.log('not opening topic, no element is selected.');
             return;
         }
         var el = null;
@@ -520,7 +519,7 @@ var topicsCallback;
                     topicId = selectedElement.getAttribute('data-cavy-topic');
                 }
                 if (topicId) {
-                    openIframe(clientUrl + '/#/?topic=' + topicId);
+                    openIframe(clientUrl + '/?topic=' + topicId);
                 } else {
                     stopSelector();
                 }
@@ -542,9 +541,8 @@ var topicsCallback;
                 topicId = el.getAttribute('data-cavy-topic');
             }
 
-            if (topicId != null) {
-                console.log(topicId);
-                openIframe(clientUrl + '/#/?topic=' + topicId);
+            if (topicId !== null) {
+                openIframe(clientUrl + '/?topic=' + topicId);
             }
         }
         return false;
