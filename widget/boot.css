@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Heebo:400,500');
-
 #cavy-sse-iframe {
     position: fixed;
     top: 0;
@@ -61,7 +59,7 @@
 
 .cavy-status-text {
     display: inline-block;
-    font-family: 'Heebo', sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 500;
     color: hsla(0, 0%, 100%, .75);
     font-size: 12px;
@@ -101,7 +99,7 @@
 
 .cavy-wiki-text {
     float: left;
-    font-family: 'Heebo', sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 500;
     color: #fff;
     font-size: 12px;
@@ -122,7 +120,7 @@
 .cavy-selector-tooltip {
     background: #1e8cf0;
     color: #fff;
-    font-family: 'Heebo', sans-serif;
+    font-family: Arial, sans-serif;
     font-weight: 400;
     padding: 2px 25px 12px 25px;
     position: absolute;
@@ -152,7 +150,7 @@
     text-transform: uppercase;
     text-shadow: 0 -1px 0 rgba(0,0,0,.2);
     border-radius: 2px;
-    background: #39f;
+    background: #1e8cf0;
     color: #fff;
     display: inline-block;
     padding: 1px 5px 0 5px;
